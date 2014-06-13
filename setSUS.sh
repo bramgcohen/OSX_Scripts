@@ -11,6 +11,9 @@ SLSUS="http://applesus.domain.com/content/catalogs/others/index-leopard-snowleop
 LSUS="http://servername/content/catalogs/others/index-lion-snowleopard-leopard.merged-1_Prod.sucatalog"
 #Define your Mountian Lion Branch 10.8
 MLSUS="http://servername/content/catalogs/others/index-mountainlion-lion-snowleopard-leopard.merged-1_Prod.sucatalog"
+#Define your MavericksBranch 10.9
+MLSUS="http://servername/content/catalogs/others/index-10.9-mountainlion-lion-snowleopard-leopard.merged-1_Prod.sucatalog"
+
 #Define the Name of your Server for the log output
 NAME="SERVERNAME"
 
@@ -36,6 +39,13 @@ case $OSversion in
 	defaults write /Library/Preferences/com.apple.softwareupdate CatalogURL $MLSUS
 	echo "Setting Sytem SUS to $NAME Mountain Lion Branch."
 	;;
+*10.9*)
+	defaults write /var/root/Library/Preferences/com.apple.softwareupdate CatalogURL $MVSUS
+	defaults write /Library/Preferences/com.apple.softwareupdate CatalogURL $MVSUS
+	defautls read /Library/Preferences/com.apple.softwareupdate CatalogURL
+	echo "Setting Sytem SUS to $NAME Mavericks Branch."
+	;;
+esac
 esac
 
 
@@ -49,7 +59,7 @@ case $OSversion in
 	
 *10.6*)
 	defaults write $d/Library/Preferences/com.apple.softwareupdate CatalogURL $SLSUS
-	echo "Setting SUS to $NAME Lion Branch for User $d"
+	echo "Setting SUS to $NAME Snow Leopard Branch for User $d"
 	;;
 *10.7*)
 	defaults write $d/Library/Preferences/com.apple.softwareupdate CatalogURL $LSUS
@@ -57,13 +67,18 @@ case $OSversion in
 	;;
 *10.8*)
 	defaults write $d/Library/Preferences/com.apple.softwareupdate CatalogURL $MLSUS
-	echo "Setting SUS to $NAME Lion Branch for User $d"
+	echo "Setting SUS to $NAME Mountian Lion Branch for User $d"
+	;;
+*10.9*)
+	defaults write $d/Library/Preferences/com.apple.softwareupdate CatalogURL $MVSUS
+	defaults read $d/Library/Preferences/com.apple.softwareupdate CatalogURL
+	echo "Setting SUS to $NAME Mavericks Branch for User $d"
 	;;
 esac
 
     else
         if [ -e "$d/Library/Preferences/.GlobalPreferences.plist" ];then
-        	cp /Library/Preferences/com.apple.softwareupdate.plsit $d/Library/Preferences/com.apple.softwareupdate.plsit
+        	cp /Library/Preferences/com.apple.softwareupdate.plsit $d/Library/Preferences/com.apple.softwareupdate.plist
         	echo "Setting SUS to $NAME for User $d"
         else
         	echo "The file was not found under $d skipping 
